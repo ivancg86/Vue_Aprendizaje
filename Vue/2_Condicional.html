@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atributos</title>
+</head>
+<body>
+    <div id="app">
+        <h1>{{ product }}</h1>
+        <div>
+            <img v-bind:src="image">
+        </div>
+        <h2>{{ description }}</h2>
+        <span v-if="onSale">En Venta!</span>
+        <span v-else>No quedan</span>
+        <p v-if="stock > 20">Quedan muchos</p>
+        <p v-else-if="stock <= 20 && stock > 0">Corre que vuelan</p>
+        <p v-else>Ya no hay stock</p>
+        <h3>{{ price }}€</h3>
+    </div>
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                product: 'Botas',
+                description: 'Son de cuero, de tono marrón',
+                price: '30',
+                image: './img/botas.webp',
+                onSale: true,
+                stock: 20
+            }
+        })
+    </script>
+</body>
+</html>
