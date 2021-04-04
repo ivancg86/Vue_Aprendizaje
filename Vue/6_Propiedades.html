@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Propiedades</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div id="app">
+        <h1>{{ title }}</h1>
+        <div>
+            <img v-bind:src="image" class="image">
+        </div>
+        <h2>{{ description }}</h2>
+        <ul>
+            <li v-for="detail in details">{{ detail }}</li>
+        </ul>
+        <div v-for="(variant, index) in variants">
+            <div :key="variant.variantId" class="color-box" :style="{ backgroundColor: variant.variantColor }"
+                @mouseover="updateColor(index)">
+            </div>
+            <!-- <li v-for="size in variant.variantSize">{{ size }}</li> -->
+        </div>
+        <span v-if="inStock" >En Stock!</span>
+        <span v-else>No quedan</span>
+
+        <p>{{ stocks }}</p>
+
+        <h3>Precio: {{ price }}€</h3>
+
+        <div class="row">
+            <button v-on:click="addCart" :disabled="!inStock">Añadir al carrito</button>
+            
+            <div class="cart">
+                <p>Carro({{ carro }})</p>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                brand: "Jack",
+                product: 'Botas',
+                description: 'Son de cuero, de tono marrón',
+                price: '30',
+                selectedVariant: 0,
+                onStock: true,
+                carro: 0,
+                stock: 0,
+                details: ["80% cotton", "20% polyester", "Gender-neutral"],
+                variants: [{
+                    variantId: 1,
+                    variantColor: "brown",
+                    variantSize: [39, 41, 43, 44, 46],
+                    variantImage: './img/botas.webp',
+                    variantQuantity: 10
+                },
+                {
+                    variantId: 2,
+                    variantColor: "black",
+                    variantSize: [39, 40, 42, 45, 47],
+                    variantImage: './img/botas_negras.jpg',
+                    variantQuantity: 0
+                }]
+            },
+            methods: {
+                addCart: function () {
+                    this.carro += 1
+                },
+                updateColor: function (index) {
+                    this.selectedVariant = index
+                    console.log(index)
+                }
+            },
+            computed: {
+                title() {
+                    return this.brand + ' ' + this.product
+                },
+                image() {
+                    return this.variants[this.selectedVariant].variantImage
+                },
+                inStock() {
+                    if(this.variants[this.selectedVariant].variantQuantity == 0){
+                        this.onStock = false
+                    }
+                    else{
+                        this.onStock = true
+                    }
+                    return this.variants[this.selectedVariant].variantQuantity
+                },
+                stocks() {
+                    if(this.onStock){
+                        return this.brand + ' ' + this.product + ' ' + 'esta en stock'
+                    }
+                    else{
+                        return this.brand + ' ' + this.product + ' ' + 'no esta en stock'
+                    }
+                }
+            }
+
+        })
+    </script>
+</body>
+
+</html>
