@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clases y Estilos</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div id="app">
+        <h1>{{ product }}</h1>
+        <div>
+            <img v-bind:src="image" class="image">
+        </div>
+        <h2>{{ description }}</h2>
+        <ul>
+            <li v-for="detail in details">{{ detail }}</li>
+        </ul>
+        <div v-for="variant in variants">
+            <div :key="variant.variantId" class="color-box" :style="{ backgroundColor: variant.variantColor }"
+                @mouseover="updateColor(variant.variantImage)">
+            </div>
+            <li v-for="size in variant.variantSize">{{ size }}</li>
+        </div>
+        <span v-if="stock > 0" >En Stock!</span>
+        <span v-else :class="{ outOfStock: stock == 0 }">No quedan</span>
+
+        <h3>Precio: {{ price }}€</h3>
+
+        <div class="row">
+            <button v-on:click="addCart" :disabled="stock == 0">Añadir al carrito</button>
+            <button v-on:click="resetCart" v-if="carro > 0">Reiniciar elcarrito</button>
+            <button v-on:click="subtractCart" v-if="carro > 0">Eliminar del carrito</button>
+            <div class="cart">
+                <p>Carro({{ carro }})</p>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                product: 'Botas',
+                description: 'Son de cuero, de tono marrón',
+                price: '30',
+                image: './img/botas.webp',
+                onSale: false,
+                carro: 0,
+                stock: 0,
+                details: ["80% cotton", "20% polyester", "Gender-neutral"],
+                variants: [{
+                    variantId: 1,
+                    variantColor: "brown",
+                    variantSize: [39, 41, 43, 44, 46],
+                    variantImage: './img/botas.webp'
+                },
+                {
+                    variantId: 2,
+                    variantColor: "black",
+                    variantSize: [39, 40, 42, 45, 47],
+                    variantImage: './img/botas_negras.jpg'
+                }]
+            },
+            methods: {
+                addCart: function () {
+                    this.carro += 1
+                },
+                resetCart: function () {
+                    this.carro = 0
+                },
+                subtractCart: function () {
+                    this.carro -= 1
+                },
+                updateColor: function (variantImage) {
+                    this.image = variantImage;
+                }
+            }
+
+        })
+    </script>
+</body>
+
+</html>
