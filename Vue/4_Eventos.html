@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eventos</title>
+</head>
+
+<body>
+    <div id="app">
+        <h1>{{ product }}</h1>
+        <div>
+            <img v-bind:src="image">
+        </div>
+        <h2>{{ description }}</h2>
+        <ul>
+            <li v-for="detail in details">{{ detail }}</li>
+        </ul>
+        <div v-for="variant in variants">
+            <p>Nos quedan en color {{ variant.variantColor }} las tallas:</p>
+            <li v-for="size in variant.variantSize">{{ size }}</li>
+        </div>
+        <span v-if="onSale">En Venta!</span>
+        <span v-else>No quedan</span>
+
+        <h3>{{ price }}€</h3>
+
+        <div class="row">
+            <button v-on:click="addCart">Añadir al carrito</button>
+            <button v-on:click="resetCart" v-if="stock > 0">Reiniciar elcarrito</button>
+            <button v-on:click="subtractCart" v-if="stock > 0">Eliminar del carrito</button>
+            <div class="cart">
+                <p>Stock({{ stock }})</p>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                product: 'Botas',
+                description: 'Son de cuero, de tono marrón',
+                price: '30',
+                image: './img/botas.webp',
+                onSale: true,
+                stock: 0,
+                details: ["80% cotton", "20% polyester", "Gender-neutral"],
+                variants: [{
+                    variantId: 1,
+                    variantColor: "marrón",
+                    variantSize: [39, 41, 43, 44, 46]
+                },
+                {
+                    variantId: 2,
+                    variantColor: "negro",
+                    variantSize: [39, 40, 42, 45, 47]
+                }]
+            },
+            methods:{
+                    addCart: function () {
+                        this.stock += 1
+                    },
+                    resetCart: function () {
+                        this.stock = 0
+                    },
+                    subtractCart: function () {
+                        this.stock -= 1
+                    }
+                }
+
+        })
+    </script>
+</body>
+
+</html>
