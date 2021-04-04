@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listas</title>
+</head>
+
+<body>
+    <div id="app">
+        <h1>{{ product }}</h1>
+        <div>
+            <img v-bind:src="image">
+        </div>
+        <h2>{{ description }}</h2>
+        <ul>
+            <li v-for="detail in details">{{ detail }}</li>
+        </ul>
+        <div v-for="variant in variants">
+            <p>Nos quedan en color {{ variant.variantColor }} las tallas:</p>
+            <li v-for="size in variant.variantSize">{{ size }}</li>
+        </div>
+        <span v-if="onSale">En Venta!</span>
+        <span v-else>No quedan</span>
+
+        <h3>{{ price }}€</h3>
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                product: 'Botas',
+                description: 'Son de cuero, de tono marrón',
+                price: '30',
+                image: './img/botas.webp',
+                onSale: true,
+                stock: 20,
+                details: ["80% cotton", "20% polyester", "Gender-neutral"],
+                variants: [{
+                    variantId: 1,
+                    variantColor: "marrón",
+                    variantSize: [39, 41, 43, 44, 46]
+                },
+                {
+                    variantId: 2,
+                    variantColor: "negro",
+                    variantSize: [39, 40, 42, 45, 47]
+                }]
+            }
+
+        })
+    </script>
+</body>
+
+</html>
