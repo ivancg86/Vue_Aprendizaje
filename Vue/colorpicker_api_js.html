@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ColorPicker</title>
+</head>
+
+<body>
+
+    Selecciona tu color: <input type="color" id="myColor">
+
+    <button onclick="myFunction()">Vamos</button>
+
+    <p id="nombre"></p>
+    <p id="json"></p>
+
+    <script>
+        function myFunction() {
+            
+            var x = document.getElementById("myColor").value;
+
+            
+            x = x.substring(1);
+
+            const url = 'http://thecolorapi.com/id?hex=' + x;
+
+            const xhr = new XMLHttpRequest();
+            xhr.responseType = 'json';
+
+            xhr.onreadystatechange = () => {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    
+                    const myJSON = JSON.stringify(xhr.response);
+                    debugger;
+                    var json = JSON.parse(myJSON);
+                    document.getElementById("nombre").innerHTML = json.name.value;
+                    document.getElementById("json").innerHTML = myJSON;
+                }
+            }
+
+            xhr.open('GET', url);
+            xhr.send();
+        }
+    </script>
+</body>
+
+</html>
