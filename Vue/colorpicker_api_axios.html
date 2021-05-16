@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ColorPicker</title>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+</head>
+
+<body>
+
+    Selecciona tu color: <input type="color" id="myColor">
+
+    <button onclick="myFunction()">Vamos</button>
+
+    <p id="nombre"></p>
+    <p id="json"></p>
+
+    <script>
+        function myFunction() {
+            
+            var x = document.getElementById("myColor").value;
+
+            
+            x = x.substring(1);
+
+            const url = 'http://thecolorapi.com/id?hex=' + x;
+
+            axios.get(url)
+            .then(response =>{
+                const myJSON = JSON.stringify(response);
+                var json = JSON.parse(myJSON);
+
+                document.getElementById("nombre").innerHTML = json.data.name.value;
+                document.getElementById("json").innerHTML = myJSON;                
+            })
+            .catch(error => document.getElementById("name").innerHTML = error)
+            
+        }
+    </script>
+</body>
+
+</html>
